@@ -1,6 +1,11 @@
 const MaxHeap = require('./src/max-heap');
 const Node = require('./src/node');
 const h = new MaxHeap();
+const node = new Node (12,50);
 window.h = h;
-const node = new Node(40,100);
-window.h.parentNodes[0] = node;
+h.push(15, 42);
+h.push(13, 0);
+h.push(14, 100);
+alert(h.size);
+h.pop();
+alert(h.size);
