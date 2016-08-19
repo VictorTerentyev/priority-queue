@@ -8,14 +8,14 @@ class MaxHeap {
 	}
 
 	push(data, priority) {
-		var node = new Node (data, priority);
+		let node = new Node (data, priority);
 		this.insertNode(node);
 		this.shiftNodeUp(node);
 	}
 
 	pop() {
 		if (this.root != null) {
-			let data = this.root.data;
+			let data = this.root;
 			let root = this.detachRoot();
 			return data;	
 		}
@@ -23,6 +23,7 @@ class MaxHeap {
 	}
 
 	detachRoot() {
+		this.size--;
 		let root = this.root;
 		this.root = null;
 		this.parentNodes.pop();
