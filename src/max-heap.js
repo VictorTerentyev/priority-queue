@@ -6,6 +6,7 @@ class MaxHeap {
 		this.parentNodes = [];
 		this.size = 0;
 		this.lastInsertedNode = null;
+		this.currentNode = null;
 		this.rec = 0;
 	}
 
@@ -53,6 +54,8 @@ class MaxHeap {
 		this.root = null;
 		this.parentNodes = [];
 		this.size = 0;
+		this.lastInsertedNode = null;
+		this.rec = 0;
 	}
 
 	insertNode(node) {
@@ -60,10 +63,31 @@ class MaxHeap {
 			node.parent = null;
 			this.root = node;
 			this.parentNodes.push(node);
+			this.currentNode = node;
 		} else {
-			node.parent = node;
 			this.root.appendChild(node);
 			this.parentNodes.push(node);
+			for (var i = 0; i < this.parentNodes.length; i++) {
+				if(this.parentNodes[i] == this.currentNode) {
+					if (this.parentNodes[i].left == null) {
+						for (var j = 1; j < this.parentNodes.length; j++) {
+							if (this.parentNodes[j].parent == null) {
+								this.parentNodes[i].left = this.parentNodes[j];
+								this.parentNodes[j].parent = this.parentNodes[i];
+							}
+						}
+					} else if (this.parentNodes[i].right == null) {
+						for (var k = 1; k < this.parentNodes.length; k++) {
+							if (this.parentNodes[k].parent == null) {
+								this.parentNodes[i].right = this.parentNodes[k];
+								this.parentNodes[k].parent = this.parentNodes[i];
+							}
+						}
+					} else {
+						this.currentNode = this.parentNodes[i+1];
+					}
+				}
+			}
 		}
 		this.lastInsertedNode = this.parentNodes[this.parentNodes.length-1];
 		this.size++;
