@@ -5,7 +5,6 @@ class MaxHeap {
 	constructor() {
 		this.root = null;
 		this.parentNodes = [];
-		this.supportNodes = [];
 		this.size = 0;
 		this.lastInsertedNode = null;
 		this.currentNode = null;
@@ -61,7 +60,6 @@ class MaxHeap {
 	clear() {
 		this.root = null;
 		this.parentNodes = [];
-		this.supportNodes = [];
 		this.size = 0;
 		this.lastInsertedNode = null;
 		this.currentNode = null;
@@ -87,8 +85,31 @@ class MaxHeap {
 
 	shiftNodeUp(node) {
 		if (this.root != node) {
-			if (node.parent != this.root) {
+			if (node.parent != this.root && node.parent != null && node.parent.parent != null && node.parent.parent.right != null) {
+				let right = this.root.right;
 				node.swapWithParent();
+				let parent = node.parent;
+				parent.left = null;
+				parent.parent = node;
+				node.left = parent;
+				node.parent = this.root;
+				this.root.left = node;
+				this.root.right = right;
+				this.shiftNodeUp(node);
+			} else if (node.parent == this.root && node.left != null && node.parent.right != null) {
+				let left = node.left;
+				node.swapWithParent();
+				let parent = this.root;
+				parent.left = left;
+				parent.left.parent = parent;
+				parent.right = null;
+				node.right.parent = node;
+				node.parent = null;
+				node.left.parent = node;
+				node.left = parent;
+				this.root = node;
+				this.parentNodes[2] = this.parentNodes[0];
+				this.parentNodes[0] = this.root.left;
 				this.shiftNodeUp(node);
 			}
 		}
