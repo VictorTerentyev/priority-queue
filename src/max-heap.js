@@ -4,6 +4,7 @@ class MaxHeap {
 	
 	constructor() {
 		this.root = null;
+		this.queue = 0;
 		this.parentNodes = [];
 		this.size = 0;
 		this.lastInsertedNode = null;
@@ -14,18 +15,20 @@ class MaxHeap {
 	push(data, priority) {
 		let node = new Node (data, priority);
 		this.insertNode(node);
-		this.shiftNodeUp(node);
+		if (this.queue == 0) {
+			this.shiftNodeUp(node);
+		}
 	}
 
 	pop() {
 		if (this.root != null) {
 			var tempRoot = this.detachRoot();
 			this.restoreRootFromLastInsertedNode(tempRoot);
-			if (this.root != null) {
+			if (this.root != null && this.queue == 0) {
 				this.shiftNodeDown(this.root);
 			}
 			this.size--;
-			return tempRoot.data;	//temporary hack	
+			return tempRoot.data;
 		}
 	}
 
@@ -37,7 +40,7 @@ class MaxHeap {
 	}
 
 	restoreRootFromLastInsertedNode(detached) {
-		if (this.parentNodes.length != 0) {
+		if (this.parentNodes.length != 0 && this.queue == 0) {
 			let root = detached;
 			let lastInsertedNode = this.parentNodes.pop();
 			this.root = lastInsertedNode;
@@ -49,6 +52,22 @@ class MaxHeap {
 				this.root.left = this.parentNodes[1];
 				this.root.left.parent = lastInsertedNode;
 			}
+			return this.root;
+		} else if (this.parentNodes.length != 0 && this.queue != 0) {
+			let root = detached;
+			let supportData = [];
+			let supportPriority = [];
+			for (var i = 0; i < this.parentNodes.length; i++) {
+				supportData[i] = this.parentNodes[i].data;
+				supportPriority[i] = this.parentNodes[i].priority;
+			}
+			this.parentNodes = [];
+			for (var i = 0; i < supportData.length; i++) {
+				let node = new Node (supportData[i],supportPriority[i])
+				this.insertNode(node);
+				this.size--;
+			}
+			this.root = this.parentNodes[0];
 			return this.root;
 		}	
 	}
@@ -67,6 +86,7 @@ class MaxHeap {
 
 	clear() {
 		this.root = null;
+		this.queue = 0;
 		this.parentNodes = [];
 		this.size = 0;
 		this.lastInsertedNode = null;
