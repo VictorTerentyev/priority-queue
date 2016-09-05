@@ -1,3 +1,5 @@
+//all is done 100%
+
 const Node = require('./node');
 
 class MaxHeap {

@@ -1,3 +1,5 @@
+//all is done 100%
+
 class Node {
 	constructor(data, priority) {
 		this.data = data;

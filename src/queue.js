@@ -1,3 +1,5 @@
+//all is done 100%
+
 const MaxHeap = require('./max-heap.js');
 const Node = require('./node.js');
 class PriorityQueue {
