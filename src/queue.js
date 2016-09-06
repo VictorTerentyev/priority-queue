@@ -10,7 +10,7 @@ class PriorityQueue {
 	}
 
 	push(data, priority) {
-		if (this.heap.size < this.maxSize) {
+		if (this.heap.sizeOf < this.maxSize) {
 			let node = new Node(data,priority);
 			this.heap.queue = 1;
 			this.heap.push(data,priority);
@@ -21,7 +21,7 @@ class PriorityQueue {
 	}
 
 	shift() {	
-		if (this.heap.size != 0) {
+		if (this.heap.sizeOf != 0) {
 			this.sort();
 			this.heap.queue = 1;
 			let temp = this.heap.pop();
@@ -131,7 +131,7 @@ class PriorityQueue {
 	}
 
 	size() {
-		return this.heap.size;
+		return this.heap.sizeOf;
 	}
 
 	isEmpty() {
