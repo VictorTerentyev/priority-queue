@@ -22,6 +22,7 @@ class MaxHeap {
 		for (var i = 0; i < this.supportNodes.length; i++) {
 			this.parentNodes[i] = this.supportNodes[i];
 		}
+		this.root = this.parentNodes[0];
 		if (this.queue == 0) {
 			this.shiftNodeUp(node);
 		}
@@ -41,13 +42,12 @@ class MaxHeap {
 
 	detachRoot() {
 		let root = this.root;
-		this.parentNodes.shift();
-		this.supportNodes.shift();
 		this.root = null;
 		return root;
 	}
 
 	restoreRootFromLastInsertedNode(detached) {
+		this.parentNodes.shift();
 		if (this.parentNodes.length != 0 && this.queue == 0) {
 			let root = detached;
 			let lastInsertedNode = this.parentNodes.pop();
